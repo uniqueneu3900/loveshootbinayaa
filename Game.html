@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Love Shoot Binaya</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="gametitle">Love Shoot Binaya</h1>
+        <button type="button" id="gamestartbtn">Start game</button>
+
+
+        <img src="gunpoint.png" alt="gunpoint" class="cursor">
+        <img src="love.png" alt="love" class="lovelove">
+
+        <h1 id="yourscore"></h1>
+        <button type="button" id="gamerestart" onClick="window.location.reload()">Restart</button>
+
+    </div>
+    
+
+    <script>
+        const lovelove=document.querySelector(".lovelove");
+        const container=document.querySelector(".container");
+        const gametitle=document.querySelector("#gametitle");
+        const gameendscore=document.querySelector("#yourscore");
+        const gamerestart=document.querySelector("#gamerestart");
+       
+        const startbtn=document.querySelector("#gamestartbtn");
+
+        const binaya=document.createElement("img");
+        binaya.setAttribute("class","binayapic");
+        binaya.setAttribute("src","binayahead.png");
+
+
+        const containerheight=container.offsetHeight;
+        const containerwidth=container.offsetWidth;
+        setInterval(()=>{
+            const randTop=Math.random() * (containerheight-500);
+            const randLeft=Math.random() * (containerwidth-500);
+            
+            binaya.style.position='absolute';
+            binaya.style.top=randTop + "px";
+            binaya.style.left=randLeft + "px";
+        },900);
+
+
+        let scorevalue=0;
+        let missvalue=0;
+
+        startbtn.addEventListener("click",(e)=>{
+            container.appendChild(binaya);
+
+            gametitle.style.display="none";
+            startbtn.style.top="50px";
+
+            startbtn.innerText=`Score : ${scorevalue}`;
+            
+
+
+        });
+
+        window.addEventListener("click",(e)=>{
+            console.log(e);
+            lovelove.style.top=e.pageY + "px";
+            lovelove.style.left= e.pageX + "px";
+
+            if(e.target===binaya){
+                scorevalue++;
+                startbtn.innerText=`Score : ${scorevalue}`;
+           
+            }
+            else{
+                missvalue++;
+                if(missvalue>=5){
+                    gamerestart.style.display="unset";
+                    startbtn.style.display="none";
+                    binaya.style.display="none";
+                    lovelove.style.display="none";
+                    gameendscore.innerText=`Game End Your Score : ${scorevalue}`;
+
+
+                }
+            }
+           
+
+        });
+
+
+
+        const cursor=document.querySelector(".cursor");
+        window.addEventListener("mousemove",(e)=>{
+            cursor.style.top= e.pageY + "px";
+            cursor.style.left= e.pageX + "px";
+        });
+    </script>
+</body>
+</html>
